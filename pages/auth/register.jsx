@@ -3,6 +3,8 @@ import Image from 'next/image'
 import React from 'react'
 import { useState } from 'react'
 import { ToastContainer, toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css'
+
 import { cisco, nacos } from '../../images'
 
 const Register = () => {
@@ -20,6 +22,8 @@ const Register = () => {
         e.preventDefault()
         setStudent({...student, [e.target.name] : e.target.value})
     }
+
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -72,14 +76,23 @@ const Register = () => {
            <h2 className="text-center font-semibold text-lg uppercase">Registration for COM315 class</h2>
 
             <p className="text-sm ml-2 text-red-700">*please make sure all detailes are filled correctly, this details will be used to activate your CISCO account for PYTHON class</p>
-
-            <TextField 
+                
+              <TextField 
                 size='small'
                 label="First Name"
                 type='text'
+                name='firstName'
+                required
+                value={student.firstName}
+                onChange={handleChange}
+            />
+
+            <TextField 
+                size='small'
+                label="Middle Name"
+                type='text'
                 name='middleName'
                 required
-                sx={{color:'white', border:"1px solid white", input:{color:'white'}}}
                 value={student.middleName}
                 onChange={handleChange}
             />
@@ -89,7 +102,6 @@ const Register = () => {
                 type='text'
                 name='LastName'
                 required
-                sx={{color:'white', border:"1px solid white", input:{color:'white'}}}
                 value={student.LastName}
                 onChange={handleChange}
                 />
@@ -100,7 +112,6 @@ const Register = () => {
                     type='text'
                     name='uuid'
                     required
-                    sx={{color:'white', border:"1px solid white", input:{color:'white'}}}
                     value={student.uuid}
                     onChange={handleChange}
                   />
@@ -111,7 +122,6 @@ const Register = () => {
                   type='email'
                   name='email'
                   required
-                  sx={{color:'white', border:"1px solid white", input:{color:'white'}}}
                   value={student.email}
                   onChange={handleChange}
                 />
@@ -122,7 +132,6 @@ const Register = () => {
                 type='tel'
                 name='phoneNumber'
                 required
-                sx={{color:'white', border:"1px solid white", input:{color:'white'}}}
                 value={student.phoneNumber}
                 onChange={handleChange}
               />
