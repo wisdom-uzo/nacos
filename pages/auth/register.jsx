@@ -164,7 +164,7 @@ const Register = () => {
                 onChange={handleChange}
               />
 
-              <Button type='submit' className='bg-green-700 hover:bg-green-500 text-white'>Submit</Button>
+              <Button type='submit' variant="contained" color="success" className=' text-white'>Submit</Button>
 
             
             
