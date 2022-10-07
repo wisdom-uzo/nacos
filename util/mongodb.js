@@ -1,37 +1,36 @@
-import { MongoClient } from 'mongodb'
+import mongoose from "mongoose";
 
-let uri = process.env.MONGODB_URI
-let dbName = process.env.MONGODB_DB
+const DB_URL = process.env.MONGODB_URI;
 
-let cachedClient = null
-let cachedDb = null
-
-if (!uri) {
-  throw new Error(
-    'Please define the MONGODB_URI environment variable inside .env.local'
-  )
-}   
-
-if (!dbName) {
-  throw new Error(
-    'Please define the MONGODB_DB environment variable inside .env.local'
-  )
+if (!DB_URL) {
+	throw new Error(
+		"Please define the DB_URL environment variable inside .env.local"
+	);
 }
 
-export async function connectToDatabase() {
-  if (cachedClient && cachedDb) {
-    return { client: cachedClient, db: cachedDb }
-  }
+let cached = global.mongoose;
 
-  const client = await MongoClient.connect(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-
-  const db = await client.db(dbName)
-
-  cachedClient = client
-  cachedDb = db
-
-  return { client, db }  
+if (!cached) {
+	cached = global.mongoose = { conn: null, promise: null };
 }
+
+const dbConnect = async () => {
+	if (cached.conn) {
+		return cached.conn;
+	}
+
+	if (!cached.promise) {
+		const options = {
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+		};
+
+		cached.promise = mongoose.connect(DB_URL, options).then((mongoose) => {
+			return mongoose;
+		});
+	}
+	cached.conn = await cached.promise;
+	return cached.conn;
+};
+
+export default dbConnect;

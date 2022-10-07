@@ -1,4 +1,5 @@
 import { Button, makeStyles, TextField } from '@mui/material'
+import axios from 'axios'
 import Image from 'next/image'
 import React from 'react'
 import { useState } from 'react'
@@ -6,6 +7,9 @@ import { ToastContainer, toast } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
 
 import { cisco, nacos } from '../../images'
+
+
+const url = "http://localhost:3000/api/student";
 
 const Register = () => {
 
@@ -22,38 +26,62 @@ const Register = () => {
         e.preventDefault()
         setStudent({...student, [e.target.name] : e.target.value})
     }
-
-    
-
+   
     const handleSubmit = async (e) => {
-        e.preventDefault();
 
-        const response = await fetch("/api/student", {
-          method: "POST",
-          body: JSON.stringify({
-            ...student,
-            createdAt: new Date().toString(),
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+      e.preventDefault();
+		try {
+		
+				const { data } = await axios.post(url, student);
+       
+				console.log(data.message);
+			
+		} catch (error) {
+			console.log(error); 
+		}
+
+    toast.success('Your detailes has been added')
+
+    setStudent({
+        firstName: "",
+        middleName: "",
+        LastName: "",
+        uuid:"",
+        email: "",
+        phoneNumber: ""
+        })
+    }
+    
+
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+
+    //     const response = await fetch("/api/student", {
+    //       method: "POST",
+    //       body: JSON.stringify({ 
+    //         ...student,
+    //         createdAt: new Date().toString(),
+    //       }),
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //     });
       
-        const responseData = await response.json();
-        toast.success('Your detailes has been added')
+    //     const responseData = await response.json();
+    //     toast.success('Your detailes has been added')
 
-        setStudent({
-            firstName: "",
-            middleName: "",
-            LastName: "",
-            uuid:"",
-            email: "",
-            phoneNumber: ""
-            })
-        console.log(responseData);
+    //     setStudent({
+    //         firstName: "",
+    //         middleName: "",
+    //         LastName: "",
+    //         uuid:"",
+    //         email: "",
+    //         phoneNumber: ""
+    //         })
+    //     console.log(responseData);
 
     
-      };
+    //   };
 
 
 
@@ -63,7 +91,7 @@ const Register = () => {
      <div className='w-full flex justify-center pt-[5rem]' >
       <ToastContainer />
 
-        <form className="flex flex-col w-[95%] md:w-[35%] shadow-lg  p-3 gap-3 rounded" onSubmit={handleSubmit}>
+        <form className="flex flex-col w-[95%] md:w-[35%] shadow-lg  p-3 gap-5 rounded" onSubmit={handleSubmit}>
             <div className="flex justify-center items-center gap-4">
                 <div className="relative h-[5rem] w-[5rem] ">
                     <Image layout='fill' objectFit='contain' src={nacos} alt="Nacos-logo" />

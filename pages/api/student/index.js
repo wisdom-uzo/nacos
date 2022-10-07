@@ -1,34 +1,32 @@
-import { Timestamp } from "mongodb";
-import { connectToDatabase } from "../../../util/mongodb";
+import Student from "../../../models/students";
+import dbConnect from "../../../util/mongodb";
 
-export default async function handler (req, res){
-    const {method, body} = req
+export default async (req, res) => {
+	const { method } = req;
 
-    const {db} = await connectToDatabase();
+	// Connect to database
+	await dbConnect();
 
-    if(method === "GET") {
-        try {
-            const student = await db
-            .collection("student")
-            .find()
-            .sort({timestamp: -1})
-            .toArray()
-            res.status(200).json(student)
-        } catch (error){
-            res.status(500).json(error)
-        }
-    }
+	// Create task
+	if (method === "POST") {
+		try {
+			const newStudent = await new Student(req.body).save();
+			res
+				.status(201)
+				.json({ data: newStudent, message: "Task added successfully" });
+		} catch (error) {
+			res.status(500).json({ message: "Internal Server Error" });
+			console.log(error);
+		}
+	}
 
-    if(method === "POST") {
-        try {
-           const student = await db.collection("student")
-           .insertOne({...body, timestamp: new Timestamp()})
-           res.status(201).json(student)
-        } catch (error){
-            res.status(500).json(error)
-        }
-    }
-
-    
-    
-}
+	if (method === "GET") {
+		try {
+			const newStudent = await Student.find();
+			res.status(200).json({ data: newStudent });
+		} catch (error) {
+			res.status(500).json({ message: "Internal Server Error" });
+			console.log(error);
+		}
+	}
+};
