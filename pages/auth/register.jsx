@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { cisco, nacos } from '../../images'
 
 
-const url = "http://localhost:3000/api/student";
+const url = "https://nacos.vercel.app/api/student";
 
 const Register = () => {
 
