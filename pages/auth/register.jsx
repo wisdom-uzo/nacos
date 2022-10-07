@@ -32,7 +32,7 @@ const Register = () => {
       e.preventDefault();
 		try {
 		
-				const { data } = await axios.post(url, student);
+				const { data } = await axios.post("/api/student", student);
        
 				console.log(data.message);
 			
