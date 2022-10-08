@@ -21,6 +21,7 @@ const Register = () => {
         email: "",
         phoneNumber: ""
     })
+   const [close, setClose] = useState(true)
 
     const handleChange = (e) => {
         e.preventDefault()
@@ -104,7 +105,9 @@ const Register = () => {
            <h2 className="text-center font-semibold text-lg uppercase">Registration for COM315 class</h2>
 
             <p className="text-sm ml-2 text-red-700">*please make sure all detailes are filled correctly, this details will be used to activate your CISCO account for PYTHON class</p>
-                
+               {
+                close ? ( <h1> FORM HAS BEEN CLOSED </h1> ) : ( <>
+
               <TextField 
                 size='small'
                 label="First Name"
@@ -166,7 +169,8 @@ const Register = () => {
 
               <Button type='submit' variant="contained" color="success" className=' text-white'>Submit</Button>
 
-            
+             </>) 
+               } 
             
         </form>
 
