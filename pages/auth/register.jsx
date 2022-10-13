@@ -106,7 +106,7 @@ const Register = () => {
 
             <p className="text-sm ml-2 text-red-700">*please make sure all detailes are filled correctly, this details will be used to activate your CISCO account for PYTHON class</p>
                {
-                close ? ( <h1 className="flex justify-center items-center h-[10vh] font-bold"> FORM HAS BEEN CLOSED </h1> ) : ( <>
+                !close ? ( <h1 className="flex justify-center items-center h-[10vh] font-bold"> FORM HAS BEEN CLOSED </h1> ) : ( <>
 
               <TextField 
                 size='small'
